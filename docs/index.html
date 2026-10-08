@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unitext — Discord Unicode typography bot</title>
+  <meta name="description" content="Turn plain text into Unicode typography on Discord, via slash command or an instant chat trigger.">
+  <link rel="icon" href="../logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="hero">
+    <img class="hero-logo" src="../logo.png" alt="Unitext logo" width="96" height="96">
+    <h1>Unitext</h1>
+    <p class="tagline">Turns plain text into Unicode typography on Discord — bold, script, zalgo, emoji squares, and 23 more.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/youssefahmed2017/unitext-bot">View on GitHub</a>
+      <a class="btn" href="#setup">Setup guide</a>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <a href="#styles">Styles</a>
+    <a href="#usage">Usage</a>
+    <a href="#setup">Setup</a>
+    <a href="#deploy">Deploy</a>
+  </nav>
+
+  <main>
+
+    <section id="usage">
+      <h2>Two ways to use it</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Slash command</h3>
+          <p>Full style list with live autocomplete previews — type a style, see what it looks like before you send.</p>
+          <pre><code>/unitext font:bold message:Hello world</code></pre>
+          <p class="result">𝐇𝐞𝐥𝐥𝐨 𝐰𝐨𝐫𝐥𝐝</p>
+          <p class="note">Answered ephemerally — only you see the confirmation, the channel just gets the styled text via webhook.</p>
+        </div>
+        <div class="card">
+          <h3>Chat trigger (instant)</h3>
+          <p>No interaction round-trip, no "thinking…" state — the message is deleted and instantly reposted styled.</p>
+          <pre><code>!bold Hello world</code></pre>
+          <p class="result">𝐇𝐞𝐥𝐥𝐨 𝐰𝐨𝐫𝐥𝐝</p>
+          <p class="note">Short, natural aliases work too: <code>!glitch</code>, <code>!bubble</code>, <code>!flip</code>, <code>!cursive</code>, <code>!b</code>, <code>!i</code>…</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="styles">
+      <h2>27 styles</h2>
+      <p>Every row below is generated live from the bot's actual style table — this page is never out of sync with the code.</p>
+      <div class="style-grid">
+        <div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!bold</code>
+    <span class="style-label">Bold</span>
+    <div class="chips"><span class="chip">!b</span></div>
+  </div>
+  <div class="style-sample">𝐔𝐧𝐢𝐭𝐞𝐱𝐭</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!italic</code>
+    <span class="style-label">Italic</span>
+    <div class="chips"><span class="chip">!i</span></div>
+  </div>
+  <div class="style-sample">𝑈𝑛𝑖𝑡𝑒𝑥𝑡</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!bold_italic</code>
+    <span class="style-label">Bold Italic</span>
+    <div class="chips"><span class="chip">!bi</span><span class="chip">!bold-italic</span><span class="chip">!bolditalic</span><span class="chip">!ib</span></div>
+  </div>
+  <div class="style-sample">𝑼𝒏𝒊𝒕𝒆𝒙𝒕</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!script</code>
+    <span class="style-label">Script</span>
+    <div class="chips"><span class="chip">!cursive</span></div>
+  </div>
+  <div class="style-sample">𝒰𝓃𝒾𝓉ℯ𝓍𝓉</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!fraktur</code>
+    <span class="style-label">Fraktur</span>
+    <div class="chips"><span class="chip">!gothic</span></div>
+  </div>
+  <div class="style-sample">𝔘𝔫𝔦𝔱𝔢𝔵𝔱</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!double</code>
+    <span class="style-label">Double-struck</span>
+    <div class="chips"><span class="chip">!double-struck</span><span class="chip">!double_struck</span><span class="chip">!outline</span></div>
+  </div>
+  <div class="style-sample">𝕌𝕟𝕚𝕥𝕖𝕩𝕥</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!monospace</code>
+    <span class="style-label">Monospace</span>
+    <div class="chips"><span class="chip">!mono</span></div>
+  </div>
+  <div class="style-sample">𝚄𝚗𝚒𝚝𝚎𝚡𝚝</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!bold_script</code>
+    <span class="style-label">Bold Script</span>
+    <div class="chips"><span class="chip">!bold-script</span><span class="chip">!boldscript</span></div>
+  </div>
+  <div class="style-sample">𝓤𝓷𝓲𝓽𝓮𝔁𝓽</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!bold_fraktur</code>
+    <span class="style-label">Bold Fraktur</span>
+    <div class="chips"><span class="chip">!bold-fraktur</span><span class="chip">!boldfraktur</span></div>
+  </div>
+  <div class="style-sample">𝖀𝖓𝖎𝖙𝖊𝖝𝖙</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!sans</code>
+    <span class="style-label">Sans-serif</span>
+    <div class="chips"><span class="chip">!sans-serif</span><span class="chip">!sansserif</span></div>
+  </div>
+  <div class="style-sample">𝖴𝗇𝗂𝗍𝖾𝗑𝗍</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!sans_bold</code>
+    <span class="style-label">Sans-serif Bold</span>
+    <div class="chips"><span class="chip">!sans-bold</span><span class="chip">!sansbold</span></div>
+  </div>
+  <div class="style-sample">𝗨𝗻𝗶𝘁𝗲𝘅𝘁</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!sans_italic</code>
+    <span class="style-label">Sans-serif Italic</span>
+    <div class="chips"><span class="chip">!sans-italic</span><span class="chip">!sansitalic</span></div>
+  </div>
+  <div class="style-sample">𝘜𝘯𝘪𝘵𝘦𝘹𝘵</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!sans_bold_italic</code>
+    <span class="style-label">Sans-serif Bold Italic</span>
+    <div class="chips"><span class="chip">!sans-bold-italic</span><span class="chip">!sansbolditalic</span></div>
+  </div>
+  <div class="style-sample">𝙐𝙣𝙞𝙩𝙚𝙭𝙩</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!circled</code>
+    <span class="style-label">Circled</span>
+    <div class="chips"><span class="chip">!bubble</span></div>
+  </div>
+  <div class="style-sample">Ⓤⓝⓘⓣⓔⓧⓣ</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!negative_circled</code>
+    <span class="style-label">Negative circled</span>
+    <div class="chips"><span class="chip">!negative-circled</span><span class="chip">!negativecircled</span></div>
+  </div>
+  <div class="style-sample">🅤nitext</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!squared</code>
+    <span class="style-label">Squared</span>
+    <div class="chips"></div>
+  </div>
+  <div class="style-sample">🅄🄽🄸🅃🄴🅇🅃</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!negative_squared</code>
+    <span class="style-label">Negative squared</span>
+    <div class="chips"><span class="chip">!negative-squared</span><span class="chip">!negativesquared</span></div>
+  </div>
+  <div class="style-sample">🆄🅽🅸🆃🅴🆇🆃</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!parenthesized</code>
+    <span class="style-label">Parenthesized</span>
+    <div class="chips"><span class="chip">!parens</span></div>
+  </div>
+  <div class="style-sample">🄤⒩⒤⒯⒠⒳⒯</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!fullwidth</code>
+    <span class="style-label">Fullwidth</span>
+    <div class="chips"><span class="chip">!aesthetic</span><span class="chip">!full-width</span><span class="chip">!full_width</span><span class="chip">!wide</span></div>
+  </div>
+  <div class="style-sample">Ｕｎｉｔｅｘｔ</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!regional</code>
+    <span class="style-label">Regional indicator (flags)</span>
+    <div class="chips"><span class="chip">!flags</span><span class="chip">!regional-indicator</span><span class="chip">!regional_indicator</span></div>
+  </div>
+  <div class="style-sample">🇺🇳🇮🇹🇪🇽🇹</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!emoji</code>
+    <span class="style-label">Emoji</span>
+    <div class="chips"></div>
+  </div>
+  <div class="style-sample">🆄️🅽️🅸️🆃️🅴️🆇️🆃️</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!small_caps</code>
+    <span class="style-label">Small caps</span>
+    <div class="chips"><span class="chip">!caps</span><span class="chip">!small-caps</span><span class="chip">!smallcaps</span></div>
+  </div>
+  <div class="style-sample">ᴜɴɪᴛᴇxᴛ</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!superscript</code>
+    <span class="style-label">Superscript</span>
+    <div class="chips"><span class="chip">!tiny</span></div>
+  </div>
+  <div class="style-sample">Uⁿⁱᵗᵉˣᵗ</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!subscript</code>
+    <span class="style-label">Subscript</span>
+    <div class="chips"></div>
+  </div>
+  <div class="style-sample">Uₙᵢₜₑₓₜ</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!upside_down</code>
+    <span class="style-label">Upside-down</span>
+    <div class="chips"><span class="chip">!flip</span><span class="chip">!upside-down</span></div>
+  </div>
+  <div class="style-sample">ʇxǝʇᴉu∩</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!greek</code>
+    <span class="style-label">Greek-ish</span>
+    <div class="chips"></div>
+  </div>
+  <div class="style-sample">Υνιτεχτ</div>
+</div>
+<div class="style-row">
+  <div class="style-meta">
+    <code class="style-key">!zalgo</code>
+    <span class="style-label">Zalgo</span>
+    <div class="chips"><span class="chip">!corrupted</span><span class="chip">!glitch</span></div>
+  </div>
+  <div class="style-sample">U̴̶̴̝̥̤̅̀́n̴̸̶̜̪̗̔̐̄i̶̶̴̖̩̯̍́̇t̷̶̷̲̘̖̔̌̇e̷̴̵̛̛̘̍́̌x̷̷̴̛̤̫̅̂̆t̴̵̵̫̥̩̀̒̏</div>
+</div>
+      </div>
+    </section>
+
+    <section id="setup">
+      <h2>Setup</h2>
+      <ol class="steps">
+        <li>Create an application in the <a href="https://discord.com/developers/applications">Discord Developer Portal</a>, add a bot user, copy its token.</li>
+        <li>Invite it with the <code>bot</code> + <code>applications.commands</code> scopes. Grant <strong>Manage Webhooks</strong> (required) and <strong>Manage Messages</strong> (only needed for the <code>!style</code> fast path).</li>
+        <li>If you want the <code>!style</code> fast path, enable <strong>Message Content Intent</strong> on the Bot tab of the Developer Portal.</li>
+        <li>
+          <pre><code>python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+cp .env.example .env   # fill in DISCORD_TOKEN</code></pre>
+        </li>
+        <li><pre><code>python -m unitext</code></pre></li>
+      </ol>
+    </section>
+
+    <section id="deploy">
+      <h2>Deployment</h2>
+      <p>
+        Unitext needs a host that keeps one process running continuously — it holds a persistent
+        Discord gateway connection, so classic serverless platforms (Vercel, Cloudflare Workers)
+        can't run it as shipped. See
+        <a href="https://github.com/youssefahmed2017/unitext-bot/blob/main/DEPLOYMENT.md">DEPLOYMENT.md</a>
+        for the full breakdown, including free always-on hosts that were checked directly.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>MIT licensed. <a href="https://github.com/youssefahmed2017/unitext-bot">Source on GitHub</a>.</p>
+  </footer>
+
+</body>
+</html>
