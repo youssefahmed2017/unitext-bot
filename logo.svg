@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- sparkle accent, hints at "transform" -->
+  <path
+    d="M 404 92 L 413 115 L 436 124 L 413 133 L 404 156 L 395 133 L 372 124 L 395 115 Z"
+    fill="#ffffff"
+    opacity="0.9"
+  />
+
+  <!-- "Aa" lockup: bold roman next to italic, in one glance showing the
+       bot transforms plain text into styled typography -->
+  <text
+    x="248"
+    y="332"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="224"
+    font-weight="700"
+    fill="#ffffff"
+    text-anchor="middle"
+  ><tspan>A</tspan><tspan font-style="italic" font-weight="400" dx="4">a</tspan></text>
+</svg>

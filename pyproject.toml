@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unitext-discord-bot"
+version = "0.1.0"
+description = "A Discord bot that renders Unicode typography through slash commands and webhooks."
+requires-python = ">=3.10"
+dependencies = [
+    "discord.py==2.7.1",
+    "python-dotenv>=1.0,<2",
+]
+
+[project.scripts]
+unitext = "unitext.bot:main"
+
+[tool.setuptools.packages.find]
+include = ["unitext*"]
