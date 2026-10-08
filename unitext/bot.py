@@ -197,7 +197,8 @@ async def font_autocomplete(
     name="unitext",
     description="Send a message using Unicode typography.",
 )
-@app_commands.guild_only()
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(
     font="Unicode style to use",
     message="The message to transform",
@@ -238,14 +239,15 @@ async def unitext(
         return
 
     guild = interaction.guild
-    channel = interaction.channel
 
     if guild is None:
-        await interaction.response.send_message(
-            "Unitext only works in servers.",
-            ephemeral=True,
-        )
+        # DM or user-install context: there's no webhook to spoof identity
+        # through (Discord has no DM webhooks, and a user-installed app has
+        # no guild permissions), so just reply visibly as Unitext itself.
+        await interaction.response.send_message(transformed)
         return
+
+    channel = interaction.channel
 
     if not isinstance(channel, discord.TextChannel):
         await interaction.response.send_message(
