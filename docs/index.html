@@ -16,15 +16,14 @@
     <p class="tagline">Turns plain text into Unicode typography on Discord — bold, script, zalgo, emoji squares, and 23 more.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="https://github.com/youssefahmed2017/unitext-bot">View on GitHub</a>
-      <a class="btn" href="#setup">Setup guide</a>
+      <a class="btn" href="#setup">Install</a>
     </div>
   </header>
 
   <nav class="toc">
     <a href="#styles">Styles</a>
     <a href="#usage">Usage</a>
-    <a href="#setup">Setup</a>
-    <a href="#deploy">Deploy</a>
+    <a href="#setup">Install</a>
   </nav>
 
   <main>
@@ -287,17 +286,6 @@ cp .env.example .env   # fill in DISCORD_TOKEN</code></pre>
         </li>
         <li><pre><code>python -m unitext</code></pre></li>
       </ol>
-    </section>
-
-    <section id="deploy">
-      <h2>Deployment</h2>
-      <p>
-        Unitext needs a host that keeps one process running continuously — it holds a persistent
-        Discord gateway connection, so classic serverless platforms (Vercel, Cloudflare Workers)
-        can't run it as shipped. See
-        <a href="https://github.com/youssefahmed2017/unitext-bot/blob/main/DEPLOYMENT.md">DEPLOYMENT.md</a>
-        for the full breakdown, including free always-on hosts that were checked directly.
-      </p>
     </section>
 
   </main>
