@@ -181,16 +181,6 @@ REGIONAL = lambda s: "".join(
     REGIONAL_INDICATOR.get(c.upper(), c) if c != " " else "  " for c in s
 )
 
-# Forcing U+FE0F (variation selector-16) on the negative-squared letters
-# makes Discord render them with full emoji presentation (colored tiles)
-# instead of the plain black-and-white glyph. Keycap digits are "real"
-# multi-codepoint emoji already (digit + FE0F + combining enclosing keycap).
-EMOJI_LETTER = {chr(ord("A") + i): chr(0x1F170 + i) + "️" for i in range(26)}
-EMOJI_DIGIT = {str(d): str(d) + "️⃣" for d in range(10)}
-EMOJI = lambda s: "".join(
-    EMOJI_LETTER.get(c.upper(), EMOJI_DIGIT.get(c, c)) for c in s
-)
-
 # Combining diacritical marks, grouped by where they stack relative to the
 # base character. Zalgo deliberately "breaks" text by piling several of
 # these onto every character; the per-character cap keeps output from
@@ -271,7 +261,6 @@ STYLES: dict[str, tuple[str, Callable[[str], str]]] = {
     "parenthesized": ("Parenthesized", PARENTHESIZED),
     "fullwidth": ("Fullwidth", lambda s: s.translate(FULLWIDTH)),
     "regional": ("Regional indicator (flags)", REGIONAL),
-    "emoji": ("Emoji", EMOJI),
     "small_caps": ("Small caps", _small_caps),
     "superscript": ("Superscript", _superscript),
     "subscript": ("Subscript", _subscript),
