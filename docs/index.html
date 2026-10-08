@@ -275,16 +275,7 @@
     <section id="setup">
       <h2>Setup</h2>
       <ol class="steps">
-        <li>Create an application in the <a href="https://discord.com/developers/applications">Discord Developer Portal</a>, add a bot user, copy its token.</li>
-        <li>Invite it with the <code>bot</code> + <code>applications.commands</code> scopes. Grant <strong>Manage Webhooks</strong> (required) and <strong>Manage Messages</strong> (only needed for the <code>!style</code> fast path).</li>
-        <li>If you want the <code>!style</code> fast path, enable <strong>Message Content Intent</strong> on the Bot tab of the Developer Portal.</li>
-        <li>
-          <pre><code>python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-cp .env.example .env   # fill in DISCORD_TOKEN</code></pre>
-        </li>
-        <li><pre><code>python -m unitext</code></pre></li>
+        <li>Just go to <a>https://discord.com/api/oauth2/authorize?client_id=1557780730942332989&permissions=536882176&scope=bot%20applications.commands</a>
       </ol>
     </section>
 
