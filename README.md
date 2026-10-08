@@ -47,7 +47,7 @@ DEV_GUILD_ID=123456789012345678
 WEBHOOK_NAME=Unitext
 ```
 
-`DEV_GUILD_ID` is optional but strongly recommended during development because guild commands are available much faster than global commands.
+`DEV_GUILD_ID` is currently unused — commands always sync globally, because `/unitext` declares the DM/user-install context, which Discord's guild-specific command endpoint rejects outright.
 
 ### 3. Run
 

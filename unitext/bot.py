@@ -37,19 +37,20 @@ class UnitextClient(discord.Client):
         self._webhook_cache: dict[int, discord.Webhook] = {}
 
     async def setup_hook(self) -> None:
+        # Always sync globally. /unitext declares the BOT_DM context (for
+        # DM / user-install support), and Discord's guild-specific command
+        # endpoint rejects that context outright — guild commands can't
+        # carry it. A guild-scoped DEV_GUILD_ID fast-sync is therefore
+        # incompatible with any command that needs to work in DMs.
+        synced = await self.tree.sync()
+        print(f"[unitext] synced {len(synced)} global command(s)")
+
         if DEV_GUILD_ID:
-            guild = discord.Object(id=int(DEV_GUILD_ID))
-            self.tree.copy_global_to(guild=guild)
-
-            synced = await self.tree.sync(guild=guild)
-
             print(
-                f"[unitext] synced {len(synced)} command(s) "
-                f"to DEV_GUILD_ID={DEV_GUILD_ID}"
+                "[unitext] DEV_GUILD_ID is set but ignored — global sync "
+                "is required for DM/user-install support. Global command "
+                "updates can take a little while to propagate."
             )
-        else:
-            synced = await self.tree.sync()
-            print(f"[unitext] synced {len(synced)} global command(s)")
 
     async def on_ready(self) -> None:
         print(
