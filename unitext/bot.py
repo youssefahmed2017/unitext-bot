@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 
 import discord
 from discord import app_commands
@@ -12,6 +13,8 @@ from .fonts import STYLES, normalize_style, style_names, transform, visible_name
 # autocomplete dropdown, so users recognize the look instead of guessing
 # from a label name alone.
 PREVIEW_TEXT = "Aa1"
+
+_MARKDOWN_LINK = re.compile(r"\[([^\]]+)\]\([^)]+\)")
 
 load_dotenv()
 
@@ -152,7 +155,11 @@ class UnitextClient(discord.Client):
             except (discord.NotFound, discord.Forbidden, discord.HTTPException):
                 return None
 
-        preview = " ".join(quoted.content.split())
+        # Collapse markdown links down to their label — otherwise quoting a
+        # message that contains one (including one of our own past reply
+        # previews) leaks raw "[label](url)" syntax into the new preview.
+        content = _MARKDOWN_LINK.sub(r"\1", quoted.content)
+        preview = " ".join(content.split())
         if len(preview) > 100:
             preview = preview[:100] + "…"
 
