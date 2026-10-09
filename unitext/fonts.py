@@ -53,7 +53,13 @@ BOLD_ITALIC = lambda s: _translate(
     exceptions={"h": "𝒉"},
 )
 
-SCRIPT = lambda s: _translate(
+# Unicode's math block has two genuinely distinct cursive typefaces here,
+# not a regular/bold weight pair of the same design — the "Script" one is
+# noticeably thinner and harder to read at Discord's font sizes than
+# "Bold Script". So the readable one is what `script`/`cursive` points to;
+# the thinner original gets its own honest name, `script_light`, instead
+# of being the default people land on.
+SCRIPT_LIGHT = lambda s: _translate(
     s,
     upper_start=0x1D49C,
     lower_start=0x1D4B6,
@@ -91,7 +97,7 @@ MONOSPACE = lambda s: _translate(
     digit_start=0x1D7F6,
 )
 
-BOLD_SCRIPT = lambda s: _translate(s, upper_start=0x1D4D0, lower_start=0x1D4EA)
+SCRIPT = lambda s: _translate(s, upper_start=0x1D4D0, lower_start=0x1D4EA)
 
 BOLD_FRAKTUR = lambda s: _translate(s, upper_start=0x1D56C, lower_start=0x1D586)
 
@@ -275,10 +281,10 @@ STYLES: dict[str, tuple[str, Callable[[str], str]]] = {
     "italic": ("Italic", ITALIC),
     "bold_italic": ("Bold Italic", BOLD_ITALIC),
     "script": ("Script", SCRIPT),
+    "script_light": ("Script (Light)", SCRIPT_LIGHT),
     "fraktur": ("Fraktur", FRAKTUR),
     "double": ("Double-struck", DOUBLE),
     "monospace": ("Monospace", MONOSPACE),
-    "bold_script": ("Bold Script", BOLD_SCRIPT),
     "bold_fraktur": ("Bold Fraktur", BOLD_FRAKTUR),
     "sans": ("Sans-serif", SANS),
     "sans_bold": ("Sans-serif Bold", SANS_BOLD),
@@ -310,8 +316,15 @@ ALIASES = {
     "smallcaps": "small_caps",
     "small-caps": "small_caps",
     "upside-down": "upside_down",
-    "boldscript": "bold_script",
-    "bold-script": "bold_script",
+    "boldscript": "script",
+    "bold-script": "script",
+    "bold_script": "script",
+    "script-light": "script_light",
+    "scriptlight": "script_light",
+    "light_script": "script_light",
+    "light-script": "script_light",
+    "thin_script": "script_light",
+    "thin-script": "script_light",
     "boldfraktur": "bold_fraktur",
     "bold-fraktur": "bold_fraktur",
     "sans-serif": "sans",
