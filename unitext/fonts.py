@@ -53,13 +53,7 @@ BOLD_ITALIC = lambda s: _translate(
     exceptions={"h": "𝒉"},
 )
 
-# Unicode's math block has two genuinely distinct cursive typefaces here,
-# not a regular/bold weight pair of the same design — the "Script" one is
-# noticeably thinner and harder to read at Discord's font sizes than
-# "Bold Script". So the readable one is what `script`/`cursive` points to;
-# the thinner original gets its own honest name, `script_light`, instead
-# of being the default people land on.
-SCRIPT_LIGHT = lambda s: _translate(
+SCRIPT = lambda s: _translate(
     s,
     upper_start=0x1D49C,
     lower_start=0x1D4B6,
@@ -97,7 +91,12 @@ MONOSPACE = lambda s: _translate(
     digit_start=0x1D7F6,
 )
 
-SCRIPT = lambda s: _translate(s, upper_start=0x1D4D0, lower_start=0x1D4EA)
+# Discord renders markdown bold over *any* character content, including
+# these Unicode glyphs — so a genuine bold weight of the Script typeface is
+# just the same glyphs wrapped in **...**, rather than switching to the
+# Mathematical Bold Script block, which is a different-looking cursive
+# design, not a bold variant of this one.
+BOLD_SCRIPT = lambda s: f"**{SCRIPT(s)}**"
 
 BOLD_FRAKTUR = lambda s: _translate(s, upper_start=0x1D56C, lower_start=0x1D586)
 
@@ -281,7 +280,7 @@ STYLES: dict[str, tuple[str, Callable[[str], str]]] = {
     "italic": ("Italic", ITALIC),
     "bold_italic": ("Bold Italic", BOLD_ITALIC),
     "script": ("Script", SCRIPT),
-    "script_light": ("Script (Light)", SCRIPT_LIGHT),
+    "bold_script": ("Bold Script", BOLD_SCRIPT),
     "fraktur": ("Fraktur", FRAKTUR),
     "double": ("Double-struck", DOUBLE),
     "monospace": ("Monospace", MONOSPACE),
@@ -316,15 +315,18 @@ ALIASES = {
     "smallcaps": "small_caps",
     "small-caps": "small_caps",
     "upside-down": "upside_down",
-    "boldscript": "script",
-    "bold-script": "script",
-    "bold_script": "script",
-    "script-light": "script_light",
-    "scriptlight": "script_light",
-    "light_script": "script_light",
-    "light-script": "script_light",
-    "thin_script": "script_light",
-    "thin-script": "script_light",
+    "boldscript": "bold_script",
+    "bold-script": "bold_script",
+    # script_light existed briefly as its own style; folded back into
+    # script since bold_script no longer needs a separate glyph set to
+    # look bold (see BOLD_SCRIPT above), making them identical again.
+    "script-light": "script",
+    "scriptlight": "script",
+    "script_light": "script",
+    "light_script": "script",
+    "light-script": "script",
+    "thin_script": "script",
+    "thin-script": "script",
     "boldfraktur": "bold_fraktur",
     "bold-fraktur": "bold_fraktur",
     "sans-serif": "sans",
