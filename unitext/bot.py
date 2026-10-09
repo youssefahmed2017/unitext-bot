@@ -90,8 +90,10 @@ class UnitextClient(discord.Client):
             return
 
         transformed = transform(rest, style)
+        quote = await self._quote_line(message)
+        outgoing = quote + transformed if quote else transformed
 
-        if len(transformed) > 2000:
+        if len(outgoing) > 2000:
             return
 
         try:
@@ -106,7 +108,7 @@ class UnitextClient(discord.Client):
 
         try:
             await webhook.send(
-                transformed,
+                outgoing,
                 username=message.author.display_name[:80],
                 avatar_url=message.author.display_avatar.url,
                 wait=False,
@@ -114,6 +116,33 @@ class UnitextClient(discord.Client):
             )
         except discord.HTTPException:
             pass
+
+    async def _quote_line(self, message: discord.Message) -> str | None:
+        """Webhooks can't carry a real Discord reply reference (Discord's
+        Execute Webhook endpoint has no such field), so a reply trigger
+        gets a simulated blockquote of what it was replying to instead —
+        no clickable jump-to-message, but it shows the context."""
+
+        ref = message.reference
+        if ref is None or ref.message_id is None:
+            return None
+
+        resolved = ref.resolved
+        if isinstance(resolved, discord.Message):
+            quoted = resolved
+        elif isinstance(resolved, discord.DeletedReferencedMessage):
+            return None
+        else:
+            try:
+                quoted = await message.channel.fetch_message(ref.message_id)
+            except (discord.NotFound, discord.Forbidden, discord.HTTPException):
+                return None
+
+        preview = " ".join(quoted.content.split()) or "*(no text — attachment/embed only)*"
+        if len(preview) > 150:
+            preview = preview[:150] + "…"
+
+        return f"> **{quoted.author.display_name}**: {preview}\n"
 
     async def ensure_webhook(
         self,
