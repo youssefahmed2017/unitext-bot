@@ -120,8 +120,20 @@ class UnitextClient(discord.Client):
     async def _quote_line(self, message: discord.Message) -> str | None:
         """Webhooks can't carry a real Discord reply reference (Discord's
         Execute Webhook endpoint has no such field), so a reply trigger
-        gets a simulated blockquote of what it was replying to instead —
-        no clickable jump-to-message, but it shows the context."""
+        gets a one-line simulated reply bar instead, built to read as
+        close to the native "↩ Username  preview" reply strip as plain
+        message content allows:
+
+          - a reply-arrow glyph, same role as Discord's own reply icon
+          - a real @mention — renders as the same clickable, colored
+            pill Discord uses, but allowed_mentions=none() on the send
+            keeps it from actually pinging them
+          - a truncated preview, same ~one-line length Discord itself
+            uses before cutting a reply preview off
+          - an attachment marker when there's no text to preview
+          - a jump link, the closest substitute for "click the reply
+            bar to jump to the message" that plain content can offer
+        """
 
         ref = message.reference
         if ref is None or ref.message_id is None:
@@ -138,11 +150,24 @@ class UnitextClient(discord.Client):
             except (discord.NotFound, discord.Forbidden, discord.HTTPException):
                 return None
 
-        preview = " ".join(quoted.content.split()) or "*(no text — attachment/embed only)*"
-        if len(preview) > 150:
-            preview = preview[:150] + "…"
+        preview = " ".join(quoted.content.split())
+        if len(preview) > 100:
+            preview = preview[:100] + "…"
 
-        return f"> **{quoted.author.display_name}**: {preview}\n"
+        if not preview:
+            if quoted.attachments:
+                preview = "📎 *attachment*"
+            elif quoted.embeds:
+                preview = "*embed*"
+            else:
+                preview = "*(no text)*"
+        elif quoted.attachments:
+            preview += " 📎"
+
+        return (
+            f"⤷ {quoted.author.mention} {preview} "
+            f"· [jump]({quoted.jump_url})\n"
+        )
 
     async def ensure_webhook(
         self,
