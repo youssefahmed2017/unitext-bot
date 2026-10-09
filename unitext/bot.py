@@ -121,10 +121,11 @@ class UnitextClient(discord.Client):
         """Webhooks can't carry a real Discord reply reference (Discord's
         Execute Webhook endpoint has no such field), so a reply trigger
         gets a one-line simulated reply bar instead, built to read as
-        close to the native "↩ Username  preview" reply strip as plain
+        close to the native "╰ Username  preview" reply strip as plain
         message content allows:
 
-          - a reply-arrow glyph, same role as Discord's own reply icon
+          - ╰ (U+2570), the closest Unicode match to the rounded corner
+            connector Discord's own reply UI uses
           - a real @mention — renders as the same clickable, colored
             pill Discord uses, but allowed_mentions=none() on the send
             keeps it from actually pinging them
@@ -165,7 +166,7 @@ class UnitextClient(discord.Client):
             preview += " 📎"
 
         return (
-            f"⤷ {quoted.author.mention} {preview} "
+            f"╰ {quoted.author.mention} {preview} "
             f"· [jump]({quoted.jump_url})\n"
         )
 
