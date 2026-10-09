@@ -16,6 +16,13 @@ PREVIEW_TEXT = "Aa1"
 
 _MARKDOWN_LINK = re.compile(r"\[([^\]]+)\]\([^)]+\)")
 
+# Shape of a quote line this bot itself injects (current ">..." form, or
+# the older "┌──..." one), always ending in a jump link or its stripped
+# label. Used to recognize — and discard — our own quote-header when
+# someone replies to one of our past reply-simulation outputs, so nested
+# replies don't compound into ever-deeper quote chains.
+_OWN_QUOTE_LINE = re.compile(r"^(?:>|┌──) .*(?:· jump|discord\.com/channels/)")
+
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -155,10 +162,21 @@ class UnitextClient(discord.Client):
             except (discord.NotFound, discord.Forbidden, discord.HTTPException):
                 return None
 
+        content = quoted.content
+
+        # If this is one of our own past reply-simulation outputs (sent via
+        # a webhook, first line shaped like our own injected quote header),
+        # drop that line — otherwise replying to a reply keeps nesting the
+        # old quote-of-a-quote deeper every time.
+        if quoted.webhook_id is not None:
+            first_line, sep, rest_lines = content.partition("\n")
+            if sep and _OWN_QUOTE_LINE.match(first_line):
+                content = rest_lines
+
         # Collapse markdown links down to their label — otherwise quoting a
-        # message that contains one (including one of our own past reply
-        # previews) leaks raw "[label](url)" syntax into the new preview.
-        content = _MARKDOWN_LINK.sub(r"\1", quoted.content)
+        # message that contains one leaks raw "[label](url)" syntax into
+        # the new preview.
+        content = _MARKDOWN_LINK.sub(r"\1", content)
         preview = " ".join(content.split())
         if len(preview) > 100:
             preview = preview[:100] + "…"
