@@ -56,17 +56,6 @@ BOLD_ITALIC = lambda s: _translate(
 # Mathematical Script has gaps Unicode fills with fallback glyphs from a
 # different block entirely (the exceptions below) — that patchwork is part
 # of why it reads as less clean than Bold Script, which has no such gaps.
-# Kept as script_light for anyone who specifically wants this one.
-SCRIPT_LIGHT = lambda s: _translate(
-    s,
-    upper_start=0x1D49C,
-    lower_start=0x1D4B6,
-    exceptions={
-        "B": "ℬ", "E": "ℰ", "F": "ℱ", "H": "ℋ", "I": "ℐ",
-        "L": "ℒ", "M": "ℳ", "R": "ℛ", "e": "ℯ", "g": "ℊ",
-        "o": "ℴ",
-    },
-)
 
 SCRIPT = lambda s: _translate(s, upper_start=0x1D4D0, lower_start=0x1D4EA)
 
@@ -287,7 +276,6 @@ STYLES: dict[str, tuple[str, Callable[[str], str]]] = {
     "bold_italic": ("Bold Italic", BOLD_ITALIC),
     "script": ("Script", SCRIPT),
     "bold_script": ("Bold Script", BOLD_SCRIPT),
-    "script_light": ("Script (Light)", SCRIPT_LIGHT),
     "fraktur": ("Fraktur", FRAKTUR),
     "double": ("Double-struck", DOUBLE),
     "monospace": ("Monospace", MONOSPACE),
@@ -324,12 +312,6 @@ ALIASES = {
     "upside-down": "upside_down",
     "boldscript": "bold_script",
     "bold-script": "bold_script",
-    "script-light": "script_light",
-    "scriptlight": "script_light",
-    "light_script": "script_light",
-    "light-script": "script_light",
-    "thin_script": "script_light",
-    "thin-script": "script_light",
     "boldfraktur": "bold_fraktur",
     "bold-fraktur": "bold_fraktur",
     "sans-serif": "sans",
