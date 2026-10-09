@@ -143,7 +143,7 @@ SMALL_CAPS = {
     "a": "ᴀ", "b": "ʙ", "c": "ᴄ", "d": "ᴅ", "e": "ᴇ", "f": "ꜰ",
     "g": "ɢ", "h": "ʜ", "i": "ɪ", "j": "ᴊ", "k": "ᴋ", "l": "ʟ",
     "m": "ᴍ", "n": "ɴ", "o": "ᴏ", "p": "ᴘ", "q": "ǫ", "r": "ʀ",
-    "s": "s", "t": "ᴛ", "u": "ᴜ", "v": "ᴠ", "w": "ᴡ", "x": "x",
+    "s": "ꜱ", "t": "ᴛ", "u": "ᴜ", "v": "ᴠ", "w": "ᴡ", "x": "x",
     "y": "ʏ", "z": "ᴢ",
 }
 
@@ -172,8 +172,13 @@ NEGATIVE_SQUARED = lambda s: "".join(NEGATIVE_SQUARED_UPPER.get(c.upper(), c) fo
 
 PARENTHESIZED_LOWER = {chr(ord("a") + i): chr(0x249C + i) for i in range(26)}
 PARENTHESIZED_UPPER = {chr(ord("A") + i): chr(0x1F110 + i) for i in range(26)}
+# No parenthesized zero exists in Unicode, so "0" is left unmapped.
+PARENTHESIZED_DIGIT = {str(i): chr(0x2474 + i - 1) for i in range(1, 10)}
 PARENTHESIZED = lambda s: "".join(
-    PARENTHESIZED_UPPER.get(c, PARENTHESIZED_LOWER.get(c, c)) for c in s
+    PARENTHESIZED_UPPER.get(
+        c, PARENTHESIZED_LOWER.get(c, PARENTHESIZED_DIGIT.get(c, c))
+    )
+    for c in s
 )
 
 REGIONAL_INDICATOR = {chr(ord("A") + i): chr(0x1F1E6 + i) for i in range(26)}
@@ -240,6 +245,31 @@ def _upside_down(text: str) -> str:
     return text.translate(UPSIDE_DOWN)[::-1]
 
 
+def _overlay(text: str, mark: str) -> str:
+    """Append a combining mark after each non-space character.
+
+    Unlike Discord's own ~~strikethrough~~/markdown, this is real character
+    data — it survives in places markdown doesn't apply at all, like
+    nicknames and server names.
+    """
+    out: list[str] = []
+
+    for char in text:
+        out.append(char)
+        if not char.isspace():
+            out.append(mark)
+
+    return "".join(out)
+
+
+def _strikethrough(text: str) -> str:
+    return _overlay(text, "̶")  # combining long stroke overlay
+
+
+def _underline(text: str) -> str:
+    return _overlay(text, "̲")  # combining low line
+
+
 STYLES: dict[str, tuple[str, Callable[[str], str]]] = {
     "bold": ("Bold", BOLD),
     "italic": ("Italic", ITALIC),
@@ -265,6 +295,9 @@ STYLES: dict[str, tuple[str, Callable[[str], str]]] = {
     "superscript": ("Superscript", _superscript),
     "subscript": ("Subscript", _subscript),
     "upside_down": ("Upside-down", _upside_down),
+    "reverse": ("Reverse", lambda s: s[::-1]),
+    "strikethrough": ("Strikethrough", _strikethrough),
+    "underline": ("Underline", _underline),
     "greek": ("Greek-ish", lambda s: "".join(GREEK.get(c, c) for c in s)),
     "zalgo": ("Zalgo", _zalgo),
 }
@@ -317,6 +350,10 @@ ALIASES = {
     "outline": "double",
     "glitch": "zalgo",
     "corrupted": "zalgo",
+    "mirror": "reverse",
+    "strike": "strikethrough",
+    "strikeout": "strikethrough",
+    "underscore": "underline",
 }
 
 
